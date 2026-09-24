@@ -1,0 +1,55 @@
+PANDAS - ISSUE #35484
+=====================
+
+Issue:   https://github.com/pandas-dev/pandas/issues/35484
+My PR:   https://github.com/pandas-dev/pandas/pull/69435
+File:    pandas/tests/io/test_sql.py
+
+
+THE ISSUE
+---------
+Reported in 2020: pandas.read_sql() broke when it was given a SQLAlchemy
+query object (a "selectable") whose compiled SQL contained an escaped %
+sign, for example the modulo operator in 5 % 2.
+
+In current pandas the selectable path already works, but no test covered
+it, so the issue was labelled "Needs Tests". The job was to add a test so
+the bug cannot silently come back.
+
+
+WHAT I DID
+----------
+1. Got the issue assigned to me.
+
+2. Set up a pandas development environment on Windows: a conda env built
+   with Miniforge, and a local PostgreSQL server for the SQL tests.
+
+3. Added the test test_read_sql_percent_operator_and_selectable to
+   pandas/tests/io/test_sql.py. It:
+     - runs the query 5 % 2 and checks that the result is 1
+     - checks it through both sa.text() and sa.select()
+     - is parametrized over sqlalchemy_connectable, so it runs against
+       every SQLAlchemy-backed database in the test suite
+
+4. Ran it locally on SQLite and PostgreSQL (psycopg2); both passed. MySQL
+   was left to CI.
+
+5. Opened a pull request. My first PR (#69431) was closed automatically by
+   a bot because the issue was not yet assigned to me, even though its CI
+   passed all 46 checks. I reopened the work as PR #69435.
+
+
+A CASE I LEFT OUT ON PURPOSE
+----------------------------
+A plain SQL string containing % still fails on MySQL and PostgreSQL. pandas
+sends raw strings through exec_driver_sql, and those drivers use "pyformat"
+parameters, so they try to treat the % as a placeholder.
+
+This is a separate, known problem, already tracked by the xfailed test
+test_read_sql_iris_no_parameter_with_percent, so I did not mix it into
+this PR.
+
+
+STATUS
+------
+PR #69435: open, waiting for CI and review.
