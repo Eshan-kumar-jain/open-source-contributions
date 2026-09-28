@@ -7,8 +7,8 @@ was about, what I changed, and where it stands.
 
 | Project | Issue | Pull request | What I did | Status |
 |---|---|---|---|---|
-| pandas | [#35484](https://github.com/pandas-dev/pandas/issues/35484) | [#69435](https://github.com/pandas-dev/pandas/pull/69435) | Added a regression test for `read_sql` with `%` in SQLAlchemy queries | _TODO: Open / Merged / Closed_ |
-| numpy-financial | [#58](https://github.com/numpy/numpy-financial/issues/58) | [#155](https://github.com/numpy/numpy-financial/pull/155) | Added edge case tests for `npv` and `irr` | _TODO: Open / Merged / Closed_ |
+| pandas | [#35484](https://github.com/pandas-dev/pandas/issues/35484) | [#69435](https://github.com/pandas-dev/pandas/pull/69435) | Added a regression test for `read_sql` with `%` in SQLAlchemy queries | Merged
+| numpy-financial | [#58](https://github.com/numpy/numpy-financial/issues/58) | [#155](https://github.com/numpy/numpy-financial/pull/155) | Added edge case tests for `npv` and `irr` |  Open
 
 Full write-ups are in the text files:
 
